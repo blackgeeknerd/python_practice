@@ -1,0 +1,41 @@
+
+DIFFERENTIAL
+	BACKUP DATABASE [SQLShackDemoATC]
+	   To DISK='f:\PowerSQL\SQLShackDemoATC_Diff.BAK'
+	   WITH DIFFERENTIAL,
+		MEDIANAME = 'Native_SQLServerDiffBackup',
+		NAME = 'Diff-SQLShackDemoATC backup';
+		
+FULL
+	BACKUP DATABASE [SQLShackDemoATC]
+		To DISK='f:\PowerSQL\SQLShackDemoATC.BAK'
+		WITH FORMAT,
+			  MEDIANAME = 'Native_SQLServerBackup',
+			  NAME = 'Full-SQLShackDemoATC backup';
+			  
+	TO MULTIPLE FILES IN CASE OF LOW SPACE
+		BACKUP DATABASE SQLShackDemoATC TO 
+			DISK = 'f:\PowerSQL\SQLShackDemoATC_1.BAK', 
+			DISK = 'f:\PowerSQL\SQLShackDemoATC_2.BAK', 
+			DISK = 'f:\PowerSQL\SQLShackDemoATC_3.BAK', 
+			DISK = 'f:\PowerSQL\SQLShackDemoATC_4.BAK' 
+			WITH INIT, NAME = 'FULL SQLShackDemoATC backup', STATS = 5
+			
+	CREATE A MIRROR COPY
+		BACKUP DATABASE ProdSQLShackDemo 
+		TO DISK = 'F:\PowerSQL\ProdSQLShackDemo_1.BAK'
+		MIRROR TO DISK =  'F:\PowerSQL\ProdSQLShackDemo_2.BAK'
+		WITH FORMAT
+	
+	
+Transaction Log Backup
+	A transaction log backup contains all log records that have not been included in the last transaction log backup.
+	 A transaction log file stores a series of the logs that provide the history of every modification of data, in a database
+	It allows the database to be recovered to a specific point in time. This means that the transaction log backups are incremental and differential backups are cumulative in nature
+	
+		BACKUP LOG [SQLShackDemoATC]
+		   To DISK='f:\PowerSQL\SQLShackDemoATC_Log.trn'
+		   WITH
+		   MEDIANAME = 'Native_SQLServerLogBackup',
+			NAME = 'Log-SQLShackDemoATC backup';
+		GO
